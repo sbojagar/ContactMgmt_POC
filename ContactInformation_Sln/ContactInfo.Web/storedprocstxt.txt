@@ -1,0 +1,146 @@
+﻿USE [ContactDB_Dev]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_GetAllContacts]    Script Date: 23-03-2020 02:28:00 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[SP_GetAllContacts]
+	-- Add the parameters for the stored procedure here
+	
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT Id,FirstName,LastName,Mobile,EmaiL,ImageURL
+	FROM CONTACTS;
+END
+________________________________________________________________________________________________________________________________________________________________
+USE [ContactDB_Dev]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_GetContactDetailsById]    Script Date: 23-03-2020 02:28:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[SP_GetContactDetailsById](
+	-- Add the parameters for the stored procedure here
+	@iId int
+	)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT c.Id, c.FirstName,c.LastName,c.Mobile,Email,c.ImageURL,cg.GroupName FROM CONTACTS as c inner join ContactGroups as cg on c.ContactGroupsGroupID = cg.GroupId
+	 WHERE ID = @iId
+________________________________________________________________________________________________________________________________________________________________
+	 USE [ContactDB_Dev]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_InsertContact]    Script Date: 23-03-2020 02:29:11 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[SP_InsertContact](
+-- Add the parameters for the stored procedure here	
+	@sFname		varchar(20),
+	@sLastName	varchar(20),
+	@sMobile varchar(10),
+	@sEmail	varchar(50),
+	@iGroupId int
+	)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	INSERT INTO Contacts
+	VALUES(@sFname,@sLastName,@sMobile,@sEmail,@iGroupId,'/Images/'+@sFname+'.png')
+END
+
+END
+________________________________________________________________________________________________________________________________________________________________
+
+USE [ContactDB_Dev]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_UpdateContact]    Script Date: 23-03-2020 02:29:53 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[SP_UpdateContact](
+	-- Add the parameters for the stored procedure here
+	@iId int,
+	@sFname		varchar(20),
+	@sLastName	varchar(20),
+	@sMobile varchar(10),
+	@sEmail	varchar(50),
+	@iGroupId int
+	)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	UPDATE dbo.Contacts SET FirstName = @sFname,LastName=@sLastName,Mobile =@sMobile, Email=@sEmail
+	WHERE Id = @iId
+END
+________________________________________________________________________________________________________________________________________________________________
+
+USE [ContactDB_Dev]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_DeleteContact]    Script Date: 23-03-2020 02:30:30 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+ALTER PROCEDURE [dbo].[SP_DeleteContact](
+	-- Add the parameters for the stored procedure here
+	@iId int
+	)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	DELETE FROM Contacts WHERE Id = @iId
+	________________________________________________________________________________________________________________________________________________________________
+END
+

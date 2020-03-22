@@ -1,0 +1,47 @@
+﻿@model ContactInfo.Infrastructure.Data.Models.ViewModels.ContactsIndexModel
+@{
+    //["Title"] = "Contact Index";
+}
+
+<h1>@ViewBag.Title</h1>
+<h1>Contacts List</h1>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<div id="ContactsTable">
+    <table class ="table table-condensed" id="contactIndexTable">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Mobile</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var contact in Model.Contacts)
+            { 
+            <tr class="contactRow">
+                <td>
+                    <a asp-controller="Contacts" asp-action="Detail"asp-route-id="@contact.Id">
+                        <img src="@contact.ImageURL" class="imageCell" />
+                    </a>
+                    
+                </td>
+                <td class="">@contact.FirstName</td>
+                <td class="">@contact.LastName</td>
+                <td class="">@contact.Mobile</td>
+                <td class="">@contact.Email</td>
+                <td>
+                    <a asp-controller="Contacts" asp-action="Edit" asp-route-id="@contact.Id">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@contact.Id">Delete</a>
+                    <a asp-action="Detail" asp-route-id="@contact.Id">Details</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+
